@@ -57,7 +57,7 @@ app.get("/book",async(req,res)=>{
     }
     //filter by title
     if(req.query.filter==="title"){
-        const books = await Book.find({title:req.query.filterName}).populate('author', 'name surname');
+        const books = await Book.find({title:{$regex:req.query.filterName,$options: 'i' }}).populate('author', 'name surname');
         return res.json({books});
     }
     //filter by author
@@ -65,7 +65,7 @@ app.get("/book",async(req,res)=>{
         if (!req.query.filterName) {
             return res.json({ books: [] });
         }
-        const books = await Book.find({ author: req.query.filterName }).populate('author', 'name surname');
+        const books = await Book.find({ author: {$regex:req.query.filterName,$options: 'i' } }).populate('author', 'name surname');
         return res.json({books});
     }
 })
