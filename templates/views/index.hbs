@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">    
+        <title>Library manager</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Library</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/authors">Authors</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Add Book Button -->
+    <div class="container mt-4">
+        <h2>Add Book</h2>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+            Add
+        </button>
+    </div>
+
+    <!-- Export Books Section -->
+    <div class="container mt-4">
+        <h3>Export Books</h3>
+        <a href="/export" class="btn btn-primary">Export Books as JSON</a>
+    </div>
+    
+
+    <!-- Filter Form -->
+    <div class="container mt-4">
+        <form id="filter-form" class="row g-3">
+            <div class="col-md-3">
+                <select name="filter" id="filter" class="form-control">
+                    <option value="no">Without filter</option>
+                    <option value="title">Filter by title</option>
+                    <option value="author">Filter by author</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <input type="text" id="filterName" placeholder="Enter filter" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Book List -->
+    <div id="book-list" class="container mt-4">
+        <h2>Books</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {{#each books}}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title title">{{title}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted author">{{author.name}} {{author.surname}}</h6>
+                        <p class="card-text description">{{description}}</p>
+                        <button class="btn btn-primary edit-book-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{_id}}">Edit</button>
+                        <button class="btn btn-danger delete-book-btn" data-id="{{_id}}">Delete</button>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+        <!-- Add Book Modal -->
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered"> 
+                <div class="modal-content">
+                    <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Add book</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">                        
+                        <div class="container">
+                            <form action="/book" method="POST">
+                                <div class="mb-3 row">
+                                    <label for="title" class="col-sm-2 col-form-label">Title:</label>
+                                    <div class="col-sm-10">
+                                        <input name="title" type="text" class="form-control" placeholder="Enter title" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="author" class="col-sm-2 col-form-label">Author:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="author" id="authorsNames" required>
+                                            {{#each authors}}
+                                                <option value="{{id}}">{{name}} {{surname}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="description" class="col-sm-2 col-form-label">Info:</label>
+                                    <div class="col-sm-10">
+                                        <textarea name="description" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <div class="col-sm-10 offset-sm-2">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Add book</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>           
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Book Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered"> 
+                <div class="modal-content">
+                    <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit book</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">                        
+                        <div class="container">
+                            <form id="edit-form">
+                                <input name="id" id="id" hidden>
+                                <div class="mb-3 row">
+                                    <label for="title" class="col-sm-2 col-form-label">Title:</label>
+                                    <div class="col-sm-10">
+                                        <input name="title" type="text" class="form-control" id="title" placeholder="Enter title" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="author" class="col-sm-2 col-form-label">Author:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="author" name="author" required>
+                                            {{#each authors}}
+                                                <option value="{{_id}}">{{name}} {{surname}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="description" class="col-sm-2 col-form-label">Info:</label>
+                                    <div class="col-sm-10">
+                                        <textarea name="description" class="form-control" id="description"></textarea>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <div class="col-sm-10 offset-sm-2">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>           
+                </div>
+            </div>
+        </div>
+
+          
+    </body>       
+    <script src="./js/manager.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</html>

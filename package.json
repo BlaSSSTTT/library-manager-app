@@ -1,0 +1,23 @@
+{
+  "name": "library-manager-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev":"nodemon src/index.js",
+    "start":"node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.3",
+    "fs": "^0.0.1-security",
+    "hbs": "^4.2.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "mongoose": "^8.5.1",
+    "path": "^0.12.7",
+    "util": "^0.12.5"
+  }
+}
