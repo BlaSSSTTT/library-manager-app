@@ -1,59 +1,54 @@
 # library-manager-app
-Overview
+# Overview
 
 This web application allows users to manage a library's collection of books and authors. It provides functionalities for adding, editing, deleting books and authors, as well as exporting book data.
-Features
 
-    Books Management:
+# Features
+
+Books Management:
         Add new books with title, author, and description.
         Edit existing book details.
-        Delete books (with confirmation).
-
-    Authors Management:
+        Delete books.
+Authors Management:
         Add new authors with name and surname.
-        Delete authors (with confirmation).
-
-    Export Data:
+        Delete authors.
+Export Data:
         Export books data in CSV format.
 
-Technologies Used
 
-    Backend: Node.js, Express.js
-    Database: MongoDB
-    Frontend: HTML, CSS (Bootstrap), JavaScript (Vanilla)
+# Technologies Used
 
-Installation
+Backend: Node.js, Express.js;
+
+Database: MongoDB;
+
+Frontend: HTML, CSS (Bootstrap), JavaScript (Vanilla);
+
+
+# Installation
 
 To run the application locally:
 
-    Clone the repository:
+1. Clone the repository:
 
-    bash
+       git clone <repository-url>
+       cd <project-folder>
 
-git clone <repository-url>
-cd <project-folder>
+2. Install dependencies:
 
-Install dependencies:
+        npm install
 
-npm install
+3. Start the server:
 
-Set up environment variables:
+        npm start
 
-    Create a .env file based on .env.example and configure MongoDB connection details.
+4. Access the application at http://localhost:3000 in your web browser.
 
-Start the server:
+# Usage
 
-sql
-
-    npm start
-
-    Access the application at http://localhost:3000 in your web browser.
-
-Usage
-
-    Managing Books:
+Managing Books:
         Click on "Books" in the navigation bar to view, add, edit, or delete books.
         Use the "Export Books as JSON" button to download a JSON file of the books data.
 
-    Managing Authors:
+Managing Authors:
         Click on "Authors" in the navigation bar to view, add, or delete authors.
